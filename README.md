@@ -90,6 +90,17 @@ react-native run-android
 
 The project should now be running on iOS and android
 
+##Testing REST API using Postman
+###Registering User
+To Register a user select POST from the dropdown menu
+use localhost:<port>/api/register as the address
+Select the body field and select x-www-form-urlencoded
+Add the fields name, email and password and enter a value for all of them
+###Logging in User
+Logging is similar to registering a user but your url is localhost:<port>/api/login
+and you only need email and password fields
+###Getting User Profile
+Nothing here yet
 
 
 
