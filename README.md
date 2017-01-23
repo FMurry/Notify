@@ -54,6 +54,11 @@ This application sends a verification email when a user signs up
 For this you will need to enter your own service, email, and password
 [More info about NodeMailer](https://community.nodemailer.com/ "NodeMailer Docs")
 
+Once set up, to run the server we use 
+```
+npm start
+```
+
 
 
 
