@@ -1,6 +1,7 @@
 var express = require('express');
 var User = require('../app/models/User');
 var nodemailer = require('nodemailer');
+var jwt = require('jwt-simple');
 
 var apiRoutes = express.Router();
 
