@@ -59,6 +59,37 @@ Once set up, to run the server we use
 npm start
 ```
 
+##Setting up Mobile Applications
+Ensure that you have react-native installed
+
+Open Xcode and open choose open another project
+
+Navigate to the ios folder and select notify.xcodeproj
+
+From xcode Build the project. Project->Build
+
+Open Android Studio and choose import project
+
+Select the android folder
+
+Build the project
+
+Both Android and iOS should now be setup
+
+In cli type in 
+```
+react-native run-iOS
+```
+Simulator for iOS should open
+
+Now Go to your Android Device Manager and start an emulator
+Once the emulator is started run
+```
+react-native run-android
+```
+
+The project should now be running on iOS and android
+
 
 
 
