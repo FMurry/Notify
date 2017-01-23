@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     margin: 40,
-    color: 'purple'
+    color: 'purple',
+    backgroundColor: 'transparent'
+
   },
   field: {
     margin: 40
