@@ -1,17 +1,17 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- <Text style={styles.welcome}>
+ * @flow
+ *<Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          To get started, edit index.android.js
         </Text>
         <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+          Double tap R on your keyboard to reload,{'\n'}
+          Shake or press menu button for dev menu
         </Text>
- * @flow
  */
 
 import React, { Component } from 'react';

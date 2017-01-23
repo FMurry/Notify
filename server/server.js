@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var port = process.env.PORT || 5000;
 var passport = require('passport');
 var bodyParser = require('body-parser');
-var jwt = require('jwt-simple');
 var User = require('./app/models/user');
 
 
@@ -24,9 +23,10 @@ app.get('/', function(req, res) {
   res.send('Greetings from Notify! The API is at http://localhost:' + port + '/api');
 });
 
+
 var apiRoutes = require('./config/routes');
 
-
+//Use the api routes defined in routes.js
 app.use('/api', apiRoutes);
 // Start the server
 app.listen(port);
