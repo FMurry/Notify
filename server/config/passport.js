@@ -30,6 +30,7 @@ var Auth = function(passport) {
 }
 
 
+
 module.exports = {
    'auth': Auth
 };

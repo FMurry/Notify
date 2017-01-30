@@ -2,8 +2,28 @@ var express = require('express');
 var User = require('../app/models/User');
 var nodemailer = require('nodemailer');
 var jwt = require('jwt-simple');
+var passport = require('passport');
+require('dotenv').config(); 
 
 var apiRoutes = express.Router();
+
+getToken = function(headers) {
+	if(headers && headers.authorization){
+		var split = headers.authorization.split(' ');
+		if(split.length === 2){
+			return split[1];
+		}
+		else{
+			return null;
+		}
+	}
+	else if(headers && headers.access_token){
+		return headers.access_token;
+	}
+	else{
+		return null;
+	}
+}
 
 apiRoutes.post('/login', function(req,res){
 	User.findOne({
@@ -185,6 +205,13 @@ apiRoutes.get('/verify', function(req, res){
 			}
 		}
 	})
+});
+
+apiRoutes.get('/profile', passport.authenticate('jwt', {session: false}), function(req, res){
+	//Get the Javascript web token
+	var token = getToken(req.headers);
+	console.log(token);
+	res.send("Got Profile");
 });
 
 

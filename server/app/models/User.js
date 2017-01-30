@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var config = require('../../config/database');
+var config= require('../../config/database');
+var Note = require('./Note');
 
 var validateEmail = function(email) {
 	var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -31,6 +32,7 @@ var userSchema = new Schema({
 		required: true,
 		validate: [validatePassword, 'Please Enter A Password between 8 and 24 characters']
 	},
+	notes:[Note.schema],
 	emailVerificationToken: {
     	token: {
     		type: String
