@@ -25,12 +25,22 @@ var userSchema = new Schema({
 		unique: true,
 		required: true,
 		trim: true,
-		validate: [validateEmail, 'Please Enter a Valid Email'],
+		validate: {
+			validator: function(v) {
+				return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+			},
+			message: '{VALUE} is not a valid email!'
+		}
 	},
 	password:{
 		type: String,
 		required: true,
-		validate: [validatePassword, 'Please Enter A Password between 8 and 24 characters']
+		validate: {
+			validator: function(v) {
+				return (v.length >=8 && v.length <= 255);
+			},
+			message: 'Not a valid password'
+		}
 	},
 	notes:[Note.schema],
 	emailVerificationToken: {
@@ -54,6 +64,9 @@ var userSchema = new Schema({
 	updated_at: {
 		type: Date,
 		default: Date.now()
+	},
+	google_id: {
+		type: String
 	}
 });
 

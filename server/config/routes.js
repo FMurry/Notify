@@ -1,5 +1,6 @@
 var express = require('express');
 var User = require('../app/models/User');
+var Note = require('../app/models/Note')
 var nodemailer = require('nodemailer');
 var jwt = require('jwt-simple');
 var passport = require('passport');
@@ -24,6 +25,7 @@ getToken = function(headers) {
 		return null;
 	}
 }
+
 
 apiRoutes.post('/login', function(req,res){
 	User.findOne({
@@ -73,7 +75,9 @@ apiRoutes.post('/login', function(req,res){
 apiRoutes.post('/register', function(req, res){
 	//If one of the fields are empty
 	if(!req.body.name || !req.body.email || !req.body.password){
-		res.json({success: false, msg: 'Missing a required field'});
+		res.json({
+			success: false, 
+			msg: 'Missing a required field'});
 	}
 	//Create the new user
 	else{
@@ -210,9 +214,59 @@ apiRoutes.get('/verify', function(req, res){
 apiRoutes.get('/profile', passport.authenticate('jwt', {session: false}), function(req, res){
 	//Get the Javascript web token
 	var token = getToken(req.headers);
-	console.log(token);
-	res.send("Got Profile");
+	if(token) {
+		var decode = jwt.decode(token, process.env.SECRET);
+		User.findOne({
+			email: decode.email
+		}, function(err, user){
+			if(err) {
+				throw err;
+				res.end("Internal Server Error");
+			}
+			if(!user){
+				return res.status(403).send({success: false, code:501, token: '',msg: 'Authentication failed. User not found.'});
+			}
+			else{
+				res.json({success: true, 
+					code: 200, 
+					msg: 'Got Profile',
+					user: {
+						name:user.name,
+						email: user.email,
+						notes: user.notes
+					}
+				});
+			}
+		});
+	}
 });
 
+//Add a Term
+apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), function(req, res){
+	var token = getToken(req.headers);
+	if(token){
+		var decodedToken = jwt.decode(token, process.env.SECRET);
+		User.findOne({
+			email: decodedToken.email
+		}, function(err, user){
+			if(err){
+				throw err;
+			}
+
+			if(!user){
+				return res.status(403).send({success: false, code:501, msg: 'Authentication failed. User not found.'});
+			}
+			else{
+				var newNote = new Note({
+					description: req.body.note
+				});
+				user.notes.push(newNote);
+			}
+		});
+	}
+	else{
+		return res.status(403).send({success: false, msg: 'No token provided.'});
+	}
+});
 
 module.exports = apiRoutes;

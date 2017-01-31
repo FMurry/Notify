@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 require('dotenv').config(); 
 var mongoose = require('mongoose');
+var morgan = require('morgan');
 var port = process.env.PORT || 5000;
 var passport = require('passport');
 var bodyParser = require('body-parser');
@@ -13,14 +14,23 @@ var User = require('./app/models/user');
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
-
 //Set up passport
 app.use(passport.initialize());
 require('./config/passport').auth(passport);
 require('./config/passport');
 
+//Dev debugging tools
+if(process.env.NODE_ENV == 'dev') {
+	//Gives us various logging like response times
+	app.use(morgan('dev'));
+	mongoose.set('debug', true);
+}
+
+
+
+
 app.get('/', function(req, res) {
-  res.send('Greetings from Notify! The API is at http://localhost:' + port + '/api');
+  res.send('<h1>Greetings from Notify! The API is at http://localhost:' + port + '/api</h1>');
 });
 
 

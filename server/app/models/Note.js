@@ -9,11 +9,9 @@ var noteSchema = new Schema({
 	},
 	updated_at: {
 		type: Date,
-		required: true
 	},
 	created_at: {
 		type: String,
-		required: true
 	}
 });
 
