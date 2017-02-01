@@ -20,10 +20,13 @@ require('./config/passport').auth(passport);
 require('./config/passport');
 
 //Dev debugging tools
-if(process.env.NODE_ENV == 'dev') {
-	//Gives us various logging like response times
+if(process.env.NODE_ENV == 'dev_deep') {
+	//Excess Logging
 	app.use(morgan('dev'));
 	mongoose.set('debug', true);
+}
+else if(process.env.NODE_ENV == 'dev') {
+	app.use(morgan('dev'));
 }
 
 

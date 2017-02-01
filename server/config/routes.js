@@ -261,6 +261,11 @@ apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), funct
 					description: req.body.note
 				});
 				user.notes.push(newNote);
+
+				//Save the note here
+				return res.json({
+					note: newNote
+				});
 			}
 		});
 	}
