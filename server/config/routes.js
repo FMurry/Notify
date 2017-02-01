@@ -261,11 +261,15 @@ apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), funct
 					description: req.body.note
 				});
 				user.notes.push(newNote);
-
 				//Save the note here
-				return res.json({
-					note: newNote
+				user.save(function(err){
+					if(err){
+						console.log(err);
+						return res.status(403).send({success: false, code: 502, msg: "Internal Server Error"});
+					}
+					res.json({success: true, code: 200, msg: "Note Saved Successfully"});
 				});
+				
 			}
 		});
 	}
@@ -289,15 +293,31 @@ apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), 
 			}
 			else{
 				if(user.notes && req.body.id) {
+					var found = false;
 					//User has at least one note and request has id parameter
-					for(note in user.notes){
-						if(note._id == req.body.id){
+					for(var i = 0; i< user.notes.length; i++){
+						console.log(user.notes[i]._id);
+						if(user.notes[i]._id == req.body.id){
 							//TODO: Delete the Note and RETURN
-
+							found = true;
+							console.log("There is a match");
+							user.notes = user.notes.splice(i,1);
+							console.log(user.notes);
+							user.save(function(err){
+								if(err){
+									console.err(err);
+								}
+								return res.json({success: true, code: 200, msg: 'Note with id '+req.body.id+' successfully deleted'});
+								console.log("Delete Successful");
+							});
 						}
 					}
-					//Note to delete was note found
-					return res.json({success: false, code: 601, msg: 'Note was not found with _id: '+req.body.id})
+					if(!found){
+						//Note to delete was note found
+						console.log('No match');
+						return res.json({success: false, code: 601, msg: 'Note was not found with _id: '+req.body.id})
+					}
+
 				}
 				else{
 					//Either user has no notes to delete or improper request sent
