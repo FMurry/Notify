@@ -274,4 +274,44 @@ apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), funct
 	}
 });
 
+apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), function(req,res){
+	var token = getToken(req.headers);
+	if(token) {
+		var decodedToken = jwt.decode(token, process.env.SECRET);
+		User.findOne({
+			email: decodedToken.email
+		}, function(err, user){
+			if(err){
+				console.log(err);
+			}
+			if(!user){
+				return res.status(403).send({success: false, code:501, msg: 'Authentication failed. User not found'});
+			}
+			else{
+				if(user.notes && req.body.id) {
+					//User has at least one note and request has id parameter
+					for(note in user.notes){
+						if(note._id == req.body.id){
+							//TODO: Delete the Note and RETURN
+
+						}
+					}
+					//Note to delete was note found
+					return res.json({success: false, code: 601, msg: 'Note was not found with _id: '+req.body.id})
+				}
+				else{
+					//Either user has no notes to delete or improper request sent
+					if(!user.notes){
+						return res.json({success: false, code: 602, msg: 'User has no Notes to delete'});
+					}
+					if(!req.body.id){
+						return res.json({success: false, code: 603, msg: 'Designate which note to delete'});
+					}
+
+				}
+			}
+		});
+	}
+});
+
 module.exports = apiRoutes;
