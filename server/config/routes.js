@@ -301,7 +301,7 @@ apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), 
 							//TODO: Delete the Note and RETURN
 							found = true;
 							console.log("There is a match");
-							user.notes = user.notes.splice(i,1);
+							user.notes.splice(i,1);
 							console.log(user.notes);
 							user.save(function(err){
 								if(err){

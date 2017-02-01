@@ -1,7 +1,8 @@
 #Notify
-This is a simple hybrid application that uses a Rest API to interface with application data
-Once a user logs in they can add notes to their app and save them. Notes can be accessed from android, ios or web on a single account
-Currently This app only supports email/password authentication
+This is a simple hybrid application that shows a demonstration of a Rest API to interface with application data
+Once a user logs in they can add notes to their app and save and delete them. Notes can be accessed from android or ios on a single account
+Currently This app only supports email/password authentication with passport.js
+This application uses Nodejs, MongoDB and Express for server side and ReactJS on mobile.
 
 ##Required Installation
 This Application uses MongoDB to store information
