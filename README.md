@@ -29,7 +29,7 @@ Once all of the dependencies are installed run you need to create a .env file
 
 Your env file will look something like this:
 
-```javascript
+```
 APPNAME=Notify
 MONGOLAB_URI_DEV=mongodb://localhost/Notify
 NODE_ENV=dev
