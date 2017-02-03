@@ -17,6 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 //Set up passport
 app.use(passport.initialize());
+
+//Set the view engine
+app.set('view engine', 'pug')
+
+//Passport initialization
 require('./config/passport').auth(passport);
 require('./config/passport');
 
@@ -47,7 +52,12 @@ app.all('/api/*', validKey, function(req,res,next){
 
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname+'/index.html'));
+  res.render('index', {
+  	title: 'Notify REST API',
+  	greetings: 'Greetings from Notify! your server is located at localhost:'+port+'/api',
+  	port: port
+			
+						});
 });
 
 

@@ -1,0 +1,99 @@
+html
+	head
+		title= title
+		style
+			include style.css
+	body
+		h1 Greetings from Notify! your server is located at localhost:#{port}/api
+
+		For server set up please refer to the readme 
+		a(href='https://www.github.com/FMurry/Notify') here
+
+		h2 Testing REST API using Postman
+
+		h3 Registering User
+		p To Register a user select POST from the dropdown menu use localhost:#{port}/api/register?apiKey=API_KEY_HERE as the address Select the body field and select x-www-form-urlencoded Add the fields name, email and password and enter a value for all of them
+
+		h3 Logging in User
+		p Logging is similar to registering a user but your url is localhost:#{port}/api/login?apiKey=API_KEY_HERE and you only need email and password fields you need the token from the JSON response
+
+		h3 Getting User Profile
+		p To get the the user profile select GET and use localhost:#{port}/api/register?apiKey=API_KEY_HERE, Select headers and enter Authorization as key and the JWT token as the value. The JSON response will have user information
+
+		h3 Adding a Note
+		p To add a Note select POST and use localhost:#{port}/api/addNote?apiKey=API_KEY_HERE, like getting the user profile you will need to set the token in the header. Go to body and use the key note and for the value type in a note (text)
+
+		h3 Removing a Note
+		p To remove a Note select POST and use localhost:#{port}/api/removeNote?apiKey=API_KEY_HERE, you will also need to pass the token in the header and for the body id is key and for the value enter the _id of the note given by the profile request.
+
+		h2 Requests
+		table
+			tr
+				th URL
+				th Type
+				th Params
+				th Description
+				th Response
+			tr
+				td localhost:#{port}/api/register?apiKey=[YOUR_API_KEY]
+				td POST
+				td 
+					| name - Name of user 
+					br
+					| email - email of user 
+					br
+					| password - password of user
+				td Registers the user with the application
+				td JSON response on whether successful or not
+
+			tr
+				td localhost:#{port}/api/login?apiKey=[YOUR_API_KEY]
+				td POST
+				td 
+					| email - email of user 
+					br
+					| password - password of user
+				td Authenticates the user and returns Javascript Web Token
+				td JSON response with Javascript web token
+
+			tr
+				td localhost:#{port}/api/profile?apiKey=[YOUR_API_KEY]
+				td GET
+				td 
+					| Need to pass the JWT token in Authorization header
+					
+				td Gets profile information about user
+				td JSON response with user profile
+
+			tr
+				td localhost:#{port}/api/addNote?apiKey=[YOUR_API_KEY]
+				td POST
+				td 
+					| Need to pass the JWT token in Authorization header
+					br
+					| note - contents of the note
+				td Adds the note to the user
+				td JSON response whether successful or not
+
+			tr
+				td localhost:#{port}/api/removeNote?apiKey=[YOUR_API_KEY]
+				td POST
+				td 
+					| Need to pass the JWT token in Authorization header
+					br
+					| id - id of the note
+				td Removes the note from the user
+				td JSON response whether successful or not
+
+		|
+		br
+		|
+		br
+		
+		h2 Error Codes
+		table
+			tr
+				th Code
+				th Message
+				
+		p coming soon!!!
