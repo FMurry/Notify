@@ -98,14 +98,20 @@ The project should now be running on iOS and android
 ##Testing REST API using Postman
 ###Registering User
 To Register a user select POST from the dropdown menu
-use localhost:<port>/api/register as the address
+use localhost:<port>/api/register?apiKey=<YOUR_API_KEY_HERE> as the address
 Select the body field and select x-www-form-urlencoded
 Add the fields name, email and password and enter a value for all of them
 ###Logging in User
-Logging is similar to registering a user but your url is localhost:<port>/api/login
-and you only need email and password fields
+Logging is similar to registering a user but your url is localhost:<port>/api/login?apiKey=<YOUR_API_KEY_HERE>
+and you only need email and password fields you need the token from the JSON response
 ###Getting User Profile
-Nothing here yet
+To get the the user profile select GET and use localhost:<port>/api/register?apiKey=<YOUR_API_KEY_HERE>, Select headers and enter Authorization as key and the JWT token as the value. The JSON response will have user information
+###Adding a Note
+To add a Note select POST and use localhost:<port>/api/addNote?apiKey=<YOUR_API_KEY_HERE>, like getting the user profile you will need to set the token in the header. Go to body and use the key note and for the value type in a note (text)
+###Removing a Note
+To remove a Note select POST and use localhost:<port>/api/removeNote?apiKey=<YOUR_API_KEY_HERE>, you will also need to pass the token in the header and for the body id is key and for the value enter the _id of the note given by the profile request.
+
+visit localhost index page for more info
 
 
 
