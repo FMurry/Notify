@@ -8,6 +8,7 @@ var port = process.env.PORT || 5000;
 var passport = require('passport');
 var bodyParser = require('body-parser');
 var User = require('./app/models/user');
+var path = require('path');
 
 
 
@@ -46,7 +47,7 @@ app.all('/api/*', validKey, function(req,res,next){
 
 
 app.get('/', function(req, res) {
-  res.send('<h1>Greetings from Notify! The API is at http://localhost:' + port + '/api</h1>');
+  res.sendFile(path.join(__dirname+'/index.html'));
 });
 
 

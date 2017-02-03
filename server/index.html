@@ -1,0 +1,80 @@
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #000000;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+
+<h1>Greetings from Notify!</h1>
+<h2>Requests</h2>
+<table>
+	<tr>
+		<th>Url</th>
+		<th>Type</th>
+		<th>Params</th>
+		<th>Description</th>
+		<th>Response</th>
+	</tr>
+	<tr>
+		<td>localhost:3000/api/register?apiKey=<></td>
+		<td>POST</td>
+		<td>name - Name of user, <br>
+		email - email of user,<br> 
+		password - password of user</td>
+		<td>Registers the user with the application</td>
+		<td>JSON response on whether successful or not</td>
+
+	</tr>
+	<tr>
+		<td>localhost:3000/api/login?apiKey=<></td>
+		<td>POST</td>
+		<td>email - email of user,<br> 
+		password - password of user</td>
+		<td>Authenticates the user and returns Javascript Web Token</td>
+		<td>JSON response with Javascript web token</td>
+
+	</tr>
+	<tr>
+		<td>localhost:3000/api/profile?apiKey=<></td>
+		<td>POST</td>
+		<td>Need to pass the JWT token in Authorization header</td>
+		<td>Gets profile information about user</td>
+		<td>JSON response with user profile</td>
+	</tr>
+	<tr>
+		<td>localhost:3000/api/addNote?apiKey=<></td>
+		<td>POST</td>
+		<td>Need to pass the JWT token in Authorization header<br>
+		note - contents of the note</td>
+		<td>Adds the note to the user</td>
+		<td>JSON response whether successful or not</td>
+	</tr>
+	<tr>
+		<td>localhost:3000/api/removeNote?apiKey=<></td>
+		<td>POST</td>
+		<td>Need to pass the JWT token in Authorization header<br>
+		id - id of the note</td>
+		<td>Removes the note from the user</td>
+		<td>JSON response whether successful or not</td>
+	</tr>
+</table>
+
+<h2>Error Codes</h2>
+<table>
+	<tr>
+		<th>Code</th>
+		<th>message</th>
+	</tr>
+</table>
+coming soon....
