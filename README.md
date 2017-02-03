@@ -32,7 +32,7 @@ Your env file will look something like this:
 ```
 APPNAME=Notify
 MONGOLAB_URI_DEV=mongodb://localhost/Notify
-NODE_ENV=dev
+NODE_ENV=dev 
 MONGOLAB_URI_PROD=
 PORT=3000
 SECRET=
@@ -40,6 +40,7 @@ NODEMAILER=true
 NODEMAILER_SERVICE=Gmail
 NODEMAILER_EMAIL=
 NODEMAILER_PASS=
+API_KEY=
 ```
 
 For the .env file you need to set MONGOLAB_URI_DEV to your own database
@@ -54,6 +55,9 @@ For example SECRET=fj2r5hgj40293rvksK
 This application sends a verification email when a user signs up
 For this you will need to enter your own service, email, and password
 [More info about NodeMailer](https://community.nodemailer.com/ "NodeMailer Docs")
+
+Randomly generate your own API_KEY. You will need this as a request query in order for requests to work.
+For example localhost:3000/api/login?apiKey=SOME_KEY_HERE
 
 Once set up, to run the server we use 
 ```

@@ -29,6 +29,19 @@ else if(process.env.NODE_ENV == 'dev') {
 	app.use(morgan('dev'));
 }
 
+function validKey(req, res, next){
+	console.log(req.query.apiKey);
+	if(req.query.apiKey == process.env.API_KEY){
+		next();
+	}
+	else{
+		res.send("Not authorized to use api");
+	}
+}
+
+app.all('/api/*', validKey, function(req,res,next){
+	next();
+});
 
 
 
