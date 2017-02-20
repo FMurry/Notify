@@ -56,15 +56,15 @@ app.get('/', function(req, res) {
   	title: 'Notify REST API',
   	greetings: 'Greetings from Notify! your server is located at localhost:'+port+'/api',
   	port: port
-			
-						});
+	});
 });
 
 
-var apiRoutes = require('./config/routes');
+var notifyRoutes = require('./config/routes');
 
 //Use the api routes defined in routes.js
-app.use('/api', apiRoutes);
+app.use('/api', notifyRoutes.apiRoutes);
+app.use('/', notifyRoutes.Routes);
 // Start the server
 app.listen(port);
 console.log('Notify Listening at http://localhost:' + port);

@@ -4,29 +4,11 @@ var Note = require('../app/models/Note')
 var nodemailer = require('nodemailer');
 var jwt = require('jwt-simple');
 var passport = require('passport');
-require('dotenv').config(); 
+require('dotenv').config();
+var useful = require('./functions'); 
 
 var apiRoutes = express.Router();
-
-getToken = function(headers) {
-	if(headers && headers.authorization){
-		var split = headers.authorization.split(' ');
-		if(split.length === 2){
-			return split[1];
-		}
-		else{
-			return null;
-		}
-	}
-	else if(headers && headers.access_token){
-		return headers.access_token;
-	}
-	else{
-		return null;
-	}
-}
-
-
+var Routes = express.Router();
 
 
 apiRoutes.post('/login', function(req,res){
@@ -89,18 +71,18 @@ apiRoutes.post('/register', function(req, res){
 			name: req.body.name,
 			password: req.body.password
 		});
-		var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		var emailToken = '';
-		for (var i = 16; i > 0; --i) {
-			emailToken += chars[Math.round(Math.random() * (chars.length - 1))];
-		}
-		// create expiration date
-		var expires = new Date();
-		expires.setHours(expires.getHours() + 6);
-
+		// var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		// var emailToken = '';
+		// for (var i = 16; i > 0; --i) {
+		// 	emailToken += chars[Math.round(Math.random() * (chars.length - 1))];
+		// }
+		// // create expiration date
+		// var expires = new Date();
+		// expires.setHours(expires.getHours() + 6);
+		var emailVerify = useful.generateEmailToken();
 		newUser.emailVerificationToken = {
-			token: emailToken,
-			expires: expires
+			token: emailVerify.token,
+			expires: emailVerify.expires
 		};
 
 		//Saves the user to db save hashes the password because of pre function
@@ -127,7 +109,7 @@ apiRoutes.post('/register', function(req, res){
 					// 	return res.json({ success: false, code: 404,msg: err.errors.password.message})
 					// }
 					//Unknown error
-					return res.json({ success: false, code: 450, msg: err})
+					return res.json({ success: false, code: 450, msg: "Validation Error"})
 				}
 				else{
 					console.log(err);
@@ -137,6 +119,7 @@ apiRoutes.post('/register', function(req, res){
 			//Handles Email Sending when user signs up
 			if(process.env.NODEMAILER){
 				if(process.env.NODEMAILER==='true'){
+					//TODO: Move to own method in functions.js
 					var transporter = nodemailer.createTransport({
 						service: process.env.NODEMAILER_SERVICE,
 						auth: {
@@ -144,7 +127,7 @@ apiRoutes.post('/register', function(req, res){
 							pass: process.env.NODEMAILER_PASS
 						}
 					});
-					var link="http://"+req.get('host')+"/api/verify?id="+newUser._id+"&tid="+emailToken;
+					var link="http://"+req.get('host')+"/verify?id="+newUser._id+"&tid="+emailVerify.token;
 					mailOptions = {
 						from: process.env.NODEMAILER_EMAIL, // sender address
 						to: newUser.email, // list of receivers
@@ -160,6 +143,7 @@ apiRoutes.post('/register', function(req, res){
 							console.log('Message sent: ' + info.response);
 						}
 					});
+					//TODO: End Mailer Move Here
 				}
 			}
 			res.json({success: true, code:200, msg: 'New user created successfully'});
@@ -168,18 +152,17 @@ apiRoutes.post('/register', function(req, res){
 });
 
 //Verify the user email
-apiRoutes.get('/verify', function(req, res){
+Routes.get('/verify', function(req, res){
 	console.log("Verify Reached");
 	User.findOne({
 		_id: req.query.id
 	}, function(err, user){
 		if(err){
 			throw err;
-			res.send('<h1>Error has occured please request another verification email');
+			res.send('<h1>Error has occured please request another verification email through the app');
 		}
 		else if(!user){
-			console.log("User not found");
-			res.send("<h1>Invalid email</h1>")
+			res.send("<h1>Error has occured please request another verification email through the app</h1>")
 			res.end();
 			return;
 		}
@@ -213,9 +196,34 @@ apiRoutes.get('/verify', function(req, res){
 	})
 });
 
+/*
+*	Route to reverify 
+*/
+apiRoutes.post('/reverify', passport.authenticate('jwt', {session: false}), function(req, res){
+	//TODO: Implement
+	var token = useful.getToken(req.headers);
+	if(token) {
+		var decodedToken = jwt.decode(token, process.env.SECRET);
+		User.findOne({
+			email: decode.email
+		}, function(err, user){
+			if(err){
+				throw err;
+				res.end("Internal Server Error");
+			}
+			if(!user){
+				return res.status(403).send({success: false, code: 501, msg: 'Authentication failed. User not found'});
+			}
+			else{
+				//Resend the verification email
+			}
+		})
+	}
+});
+
 apiRoutes.get('/profile', passport.authenticate('jwt', {session: false}), function(req, res){
 	//Get the Javascript web token
-	var token = getToken(req.headers);
+	var token = useful.getToken(req.headers);
 	if(token) {
 		var decode = jwt.decode(token, process.env.SECRET);
 		User.findOne({
@@ -245,7 +253,7 @@ apiRoutes.get('/profile', passport.authenticate('jwt', {session: false}), functi
 
 //Add a Term
 apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), function(req, res){
-	var token = getToken(req.headers);
+	var token = useful.getToken(req.headers);
 	if(token){
 		var decodedToken = jwt.decode(token, process.env.SECRET);
 		User.findOne({
@@ -281,7 +289,7 @@ apiRoutes.post('/addNote', passport.authenticate('jwt', {session: false}), funct
 });
 
 apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), function(req,res){
-	var token = getToken(req.headers);
+	var token = useful.getToken(req.headers);
 	if(token) {
 		var decodedToken = jwt.decode(token, process.env.SECRET);
 		User.findOne({
@@ -336,4 +344,7 @@ apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), 
 	}
 });
 
-module.exports = apiRoutes;
+module.exports = {
+	apiRoutes,
+	Routes
+}
