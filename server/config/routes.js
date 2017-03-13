@@ -1,7 +1,6 @@
 var express = require('express');
 var User = require('../app/models/User');
 var Note = require('../app/models/Note')
-var nodemailer = require('nodemailer');
 var jwt = require('jwt-simple');
 var passport = require('passport');
 require('dotenv').config();
@@ -117,35 +116,7 @@ apiRoutes.post('/register', function(req, res){
 				}
 			}
 			//Handles Email Sending when user signs up
-			if(process.env.NODEMAILER){
-				if(process.env.NODEMAILER==='true'){
-					//TODO: Move to own method in functions.js
-					var transporter = nodemailer.createTransport({
-						service: process.env.NODEMAILER_SERVICE,
-						auth: {
-							user: process.env.NODEMAILER_EMAIL,
-							pass: process.env.NODEMAILER_PASS
-						}
-					});
-					var link="http://"+req.get('host')+"/verify?id="+newUser._id+"&tid="+emailVerify.token;
-					mailOptions = {
-						from: process.env.NODEMAILER_EMAIL, // sender address
-						to: newUser.email, // list of receivers
-						subject : "Welcome to Notify",
-						html : "Hello and welcome to Notify,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
-					};
-
-					transporter.sendMail(mailOptions, function(error, info) {
-						if(error){
-							console.log(error);
-						}
-						else{
-							console.log('Message sent: ' + info.response);
-						}
-					});
-					//TODO: End Mailer Move Here
-				}
-			}
+			useful.sendVerificationEmail(newUser,emailVerify,req);
 			res.json({success: true, code:200, msg: 'New user created successfully'});
 		});	
 	}

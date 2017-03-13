@@ -1,4 +1,6 @@
 //Reuseable functions here
+var nodemailer = require('nodemailer');
+
 
 var generateEmailToken = function() {
 	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -36,9 +38,40 @@ var getToken = function(headers) {
 	}
 }
 
-var sendVerificationEmail = function(user, emailToken)
+var sendVerificationEmail = function(newUser, emailVerify, req) {
+	if(process.env.NODEMAILER){
+				if(process.env.NODEMAILER==='true'){
+					//TODO: Move to own method in functions.js
+					var transporter = nodemailer.createTransport({
+						service: process.env.NODEMAILER_SERVICE,
+						auth: {
+							user: process.env.NODEMAILER_EMAIL,
+							pass: process.env.NODEMAILER_PASS
+						}
+					});
+					var link="http://"+req.get('host')+"/verify?id="+newUser._id+"&tid="+emailVerify.token;
+					mailOptions = {
+						from: process.env.NODEMAILER_EMAIL, // sender address
+						to: newUser.email, // list of receivers
+						subject : "Welcome to Notify",
+						html : "Hello and welcome to Notify,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+					};
+
+					transporter.sendMail(mailOptions, function(error, info) {
+						if(error){
+							console.log(error);
+						}
+						else{
+							console.log('Message sent: ' + info.response);
+						}
+					});
+					//TODO: End Mailer Move Here
+				}
+			}
+}
 
 module.exports = {
-	generateEmailToken,
-	getToken
+	'generateEmailToken' : generateEmailToken,
+	'getToken' : getToken,
+	'sendVerificationEmail' : sendVerificationEmail
 };

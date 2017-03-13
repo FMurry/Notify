@@ -14,9 +14,18 @@
         </Text>
  */
 
+var STORAGE_KEY = 'jwt_token';
+var API_KEY = ''
+var login_params = {
+  email: '',
+  password: ''
+};
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Alert,
+  AsyncStorage,
   StyleSheet,
   Text,
   Image,
@@ -26,7 +35,9 @@ import {
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae } from 'react-native-textinput-effects';
 
-export default class notify extends Component {
+var NotifyLogin = React.createClass({
+
+
   render() {
     return (
       <Image 
@@ -38,6 +49,7 @@ export default class notify extends Component {
 
         <View style={styles.textContainer}>
           <Sae
+            ref= "username"
             style = {styles.field}
             label={'Email Address'}
             keyboardType="email-address"
@@ -47,6 +59,7 @@ export default class notify extends Component {
             iconName={'envelope'}
             iconColor={'purple'} />
           <Sae
+            ref= "pass"
             style = {styles.field}
             label={'Password'}
             multiline={false}
@@ -58,14 +71,55 @@ export default class notify extends Component {
 
           <Button
             style = {styles.button}
-            onPress={null}
+            onPress={login}
             title="Login"
             color="purple"
             accessibilityLabel="Login Here" />
+
+          <Button
+            style = {styles.button}
+            onPress={register}
+            title="Signup"
+            color="purple"
+            accessibilityLabel="Signup Here" />
         </View>
       </Image>
     );
   }
+});
+
+const login = function() {
+  var form = []
+  for(var property in login_params){
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(login_params[property]);
+    form.push(encodedKey + "=" + encodedValue);
+  }
+  form = form.join("&");
+
+  return fetch('http://localhost:3000/api/login',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: form
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.success){
+        Alert.alert('Login Successful');
+      }
+      else{
+        Alert.alert('Authentication Failed');
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+const register = function() {
+  Alert.alert("Not Implemented");
 }
 
 const styles = StyleSheet.create({
@@ -97,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('notify', () => notify);
+AppRegistry.registerComponent('notify', () => NotifyLogin);
