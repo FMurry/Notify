@@ -17,8 +17,8 @@
 var STORAGE_KEY = 'jwt_token';
 var API_KEY = ''
 var login_params = {
-  email: '',
-  password: ''
+  email: 'frederic.murry@fmsoft.xyz',
+  password: 'Password123'
 };
 
 import React, { Component } from 'react';
