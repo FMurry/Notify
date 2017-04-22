@@ -4,6 +4,7 @@
   "description": "Server to handle requests from notify app",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon ./server.js localhost 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +25,8 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "pug": "^2.0.0-beta10"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
