@@ -7,7 +7,7 @@ var morgan = require('morgan');
 var port = process.env.PORT || 5000;
 var passport = require('passport');
 var bodyParser = require('body-parser');
-var User = require('./app/models/user');
+var User = require('./app/models/User');
 var path = require('path');
 
 

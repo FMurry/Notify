@@ -1,10 +1,10 @@
-#Notify
+# Notify
 This is a simple hybrid application that shows a demonstration of a Rest API to interface with application data
 Once a user logs in they can add notes to their app and save and delete them. Notes can be accessed from android or ios on a single account
 Currently This app only supports email/password authentication with passport.js
 This application uses Nodejs, MongoDB and Express for server side and ReactJS on mobile.
 
-##Required Installation
+## Required Installation
 This Application uses MongoDB to store information
 [Install MongodDB Here](https://www.mongodb.com/download-center "MongoDB Download Page")
 
@@ -14,13 +14,13 @@ The Server of this application is built on NodeJS
 The Mobile Applications are built using React Native
 [Set up React Native Here](https://facebook.github.io/react-native/docs/getting-started.html "Getting Started with React Native")
 
-##Optional Installation
+## Optional Installation
 Quickly manage your mongoDB database with [Robomongo](https://robomongo.org/ "Robomongo")
 
 Test out api calls using [Postman](https://www.getpostman.com/ "Postman")
 
 
-##Setting Up the Server
+## Setting Up the Server
 First off you need to install all of the dependencies, head to ther server folder and run 
 ```
 npm install
@@ -64,7 +64,7 @@ Once set up, to run the server we use
 npm start
 ```
 
-##Setting up Mobile Applications
+## Setting up Mobile Applications
 Ensure that you have react-native installed
 
 Open Xcode and open choose open another project
@@ -95,20 +95,20 @@ react-native run-android
 
 The project should now be running on iOS and android
 
-##Testing REST API using Postman
-###Registering User
+## Testing REST API using Postman
+### Registering User
 To Register a user select POST from the dropdown menu
 use localhost:<port>/api/register?apiKey=<YOUR_API_KEY_HERE> as the address
 Select the body field and select x-www-form-urlencoded
 Add the fields name, email and password and enter a value for all of them
-###Logging in User
+### Logging in User
 Logging is similar to registering a user but your url is localhost:<port>/api/login?apiKey=<YOUR_API_KEY_HERE>
 and you only need email and password fields you need the token from the JSON response
-###Getting User Profile
+### Getting User Profile
 To get the the user profile select GET and use localhost:<port>/api/register?apiKey=<YOUR_API_KEY_HERE>, Select headers and enter Authorization as key and the JWT token as the value. The JSON response will have user information
-###Adding a Note
+### Adding a Note
 To add a Note select POST and use localhost:<port>/api/addNote?apiKey=<YOUR_API_KEY_HERE>, like getting the user profile you will need to set the token in the header. Go to body and use the key note and for the value type in a note (text)
-###Removing a Note
+### Removing a Note
 To remove a Note select POST and use localhost:<port>/api/removeNote?apiKey=<YOUR_API_KEY_HERE>, you will also need to pass the token in the header and for the body id is key and for the value enter the _id of the note given by the profile request.
 
 visit localhost index page for more info
