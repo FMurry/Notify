@@ -127,6 +127,10 @@ notify/pids
 # DotENV for server
 server/.env
 
+#SSL files
+server/cert.pem
+server/key.pem
+
 notify/node_modules
 server/node_modules
 
