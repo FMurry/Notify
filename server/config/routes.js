@@ -295,7 +295,6 @@ apiRoutes.delete('/removeNote', passport.authenticate('jwt', {session: false}), 
 					}
 					if(!found){
 						//Note to delete was note found
-						console.log('No match');
 						return res.json({success: false, code: 601, msg: 'Note was not found with _id: '+req.body.id})
 					}
 

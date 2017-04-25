@@ -1,14 +1,16 @@
 
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const https = require('https');
+const fs = require('fs');
 require('dotenv').config(); 
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var port = process.env.PORT || 5000;
-var passport = require('passport');
-var bodyParser = require('body-parser');
-var User = require('./app/models/User');
-var path = require('path');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const port = process.env.PORT || 5000;
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const User = require('./app/models/User');
+const path = require('path');
 
 
 
@@ -66,6 +68,11 @@ var notifyRoutes = require('./config/routes');
 app.use('/api', notifyRoutes.apiRoutes);
 app.use('/', notifyRoutes.Routes);
 // Start the server
-app.listen(port);
-console.log('Notify Listening at http://localhost:' + port);
+https.createServer({
+	key: fs.readFileSync('key.pem'),
+	cert: fs.readFileSync('cert.pem'),
+	passphrase: process.env.CERT_KEY 
+},app).listen(port);
+//app.listen(port);
+console.log('Notify Listening at https://localhost:' + port);
 

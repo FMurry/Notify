@@ -4,7 +4,7 @@ html
 		style
 			include style.css
 	body
-		h1 Greetings from Notify! your server is located at localhost:#{port}/api
+		h1 Greetings from Notify! your server is located at https://localhost:#{port}/api
 
 		For server set up please refer to the readme 
 		a(href='https://www.github.com/FMurry/Notify') here
@@ -35,7 +35,7 @@ html
 				th Description
 				th Response
 			tr
-				td localhost:#{port}/api/register?apiKey=[YOUR_API_KEY]
+				td https://localhost:#{port}/api/register?apiKey=[YOUR_API_KEY]
 				td POST
 				td 
 					| name - Name of user 
@@ -47,7 +47,7 @@ html
 				td JSON response on whether successful or not
 
 			tr
-				td localhost:#{port}/api/login?apiKey=[YOUR_API_KEY]
+				td https://localhost:#{port}/api/login?apiKey=[YOUR_API_KEY]
 				td POST
 				td 
 					| email - email of user 
@@ -57,7 +57,7 @@ html
 				td JSON response with Javascript web token
 
 			tr
-				td localhost:#{port}/api/profile?apiKey=[YOUR_API_KEY]
+				td https://localhost:#{port}/api/profile?apiKey=[YOUR_API_KEY]
 				td GET
 				td 
 					| Need to pass the JWT token in Authorization header
@@ -66,7 +66,7 @@ html
 				td JSON response with user profile
 
 			tr
-				td localhost:#{port}/api/addNote?apiKey=[YOUR_API_KEY]
+				td https://localhost:#{port}/api/addNote?apiKey=[YOUR_API_KEY]
 				td POST
 				td 
 					| Need to pass the JWT token in Authorization header
@@ -76,7 +76,7 @@ html
 				td JSON response whether successful or not
 
 			tr
-				td localhost:#{port}/api/removeNote?apiKey=[YOUR_API_KEY]
+				td https://localhost:#{port}/api/removeNote?apiKey=[YOUR_API_KEY]
 				td POST
 				td 
 					| Need to pass the JWT token in Authorization header

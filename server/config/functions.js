@@ -49,7 +49,7 @@ var sendVerificationEmail = function(newUser, emailVerify, req) {
 							pass: process.env.NODEMAILER_PASS
 						}
 					});
-					var link="http://"+req.get('host')+"/verify?id="+newUser._id+"&tid="+emailVerify.token;
+					var link="https://"+req.get('host')+"/verify?id="+newUser._id+"&tid="+emailVerify.token;
 					mailOptions = {
 						from: process.env.NODEMAILER_EMAIL, // sender address
 						to: newUser.email, // list of receivers

@@ -41,6 +41,7 @@ NODEMAILER_SERVICE=Gmail
 NODEMAILER_EMAIL=
 NODEMAILER_PASS=
 API_KEY=
+CERT_KEY=
 ```
 
 For the .env file you need to set MONGOLAB_URI_DEV to your own database
@@ -58,6 +59,8 @@ For this you will need to enter your own service, email, and password
 
 Randomly generate your own API_KEY. You will need this as a request query in order for requests to work.
 For example localhost:3000/api/login?apiKey=SOME_KEY_HERE
+
+For CERT_KEY use a random string this is the password to the certificate for secure connection (https)
 
 Once set up, to run the server we use 
 ```
